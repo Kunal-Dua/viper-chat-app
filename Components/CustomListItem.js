@@ -5,13 +5,17 @@ import { auth } from "../firebase";
 const CustomListItem = () => {
   return (
     <ListItem>
-      <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
+      <Avatar
+        rounded
+        source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
+      />
       <ListItem.Content>
-        <ListItem.Title style={{fontWeight:"900"}}>
-            XYZ
-        </ListItem.Title>
+        <ListItem.Title style={{ fontWeight: "900" }}>XYZ</ListItem.Title>
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis necessitatibus perferendis labore accusamus eius ea sint accusantium distinctio voluptatem tempore alias eum quo, sit nisi eaque officiis? Corrupti, atque incidunt?
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+          necessitatibus perferendis labore accusamus eius ea sint accusantium
+          distinctio voluptatem tempore alias eum quo, sit nisi eaque officiis?
+          Corrupti, atque incidunt?
         </ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>
