@@ -4,11 +4,18 @@ import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image, Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { auth } from "../firebase";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const singin = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error));
+  };
 
   useEffect(() => {
     const unSubscribe = auth.onAuthStateChanged((authUser) => {
@@ -52,7 +59,11 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <View>
-        <Button containerStyle={[styles.loginButton, styles.l]} title="Login" />
+        <Button
+          containerStyle={[styles.loginButton, styles.l]}
+          onPress={singin}
+          title="Login"
+        />
         <Button
           containerStyle={[styles.loginButton, styles.l]}
           icon={<Icon name="google" size={15} color="black" />}
@@ -63,6 +74,12 @@ const LoginScreen = ({ navigation }) => {
           }}
           titleStyle={{ color: "black" }}
         />
+        {/* <FontAwesome.Button name="google" backgroundColor="#3b5998" color="black">
+          Sign in with Facebook
+        </FontAwesome.Button>
+        <FontAwesome.Button name="facebook" backgroundColor="#3b5998">
+          Sign in with Facebook
+        </FontAwesome.Button> */}
         <Button
           onPress={() => navigation.navigate("Signup")}
           title="SIGN UP WITH EMAIL"
