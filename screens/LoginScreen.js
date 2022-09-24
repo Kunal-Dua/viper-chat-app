@@ -1,23 +1,23 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image, Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // useEffect(() => {
-  //   const unSubscribe = auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       navigation.replace("Home");
-  //     }
-  //   });
-  //   return unSubscribe;
-  // }, []);
+  useEffect(() => {
+    const unSubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        navigation.replace("Home");
+      }
+    });
+    return unSubscribe;
+  }, []);
 
   return (
     <KeyboardAvoidingView //FIXME: screen not going up when keyboard comes up

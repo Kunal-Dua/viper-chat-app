@@ -14,12 +14,16 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+let app;
+if (firebase.apps.length === 0) 
+  app = firebase.initializeApp(firebaseConfig);
+else app = firebase.app();
 
-const db = firebaseApp.firestore();
+// const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+const db = app.firestore();
 const auth = firebase.auth();
 
-// const provider = new firebase.auth.GoogleAuthProvider();
+const provider = new firebase.auth.GoogleAuthProvider();
 
-// export { db,auth, provider };
-export { db, auth };
+export { db, auth, provider };
