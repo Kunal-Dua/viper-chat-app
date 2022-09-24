@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { Image, Input, Button } from "react-native-elements";
 import { auth } from "../firebase";
+import { StatusBar } from "expo-status-bar";
 
 const SignupScreen = ({navigation}) => {
   const [name, setName] = useState("");
@@ -28,6 +29,7 @@ const SignupScreen = ({navigation}) => {
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
+      <StatusBar style="light" />
       <Input
         title="Full Name"
         placeholder="Full Name"

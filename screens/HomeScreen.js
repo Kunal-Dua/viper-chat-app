@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
 
 const HomeScreen = () => {
   return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
-  )
-}
+    <SafeAreaView>
+      <ScrollView>
+        <StatusBar style="light" />
+        <Text>HomeScreen</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

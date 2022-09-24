@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image, Input, Button } from "react-native-elements";
@@ -12,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     const unSubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log(authUser);
       if (authUser) {
         navigation.replace("Home");
       }
