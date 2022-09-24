@@ -13,6 +13,9 @@ import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { auth } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
+  const chatScreen = () => {
+    navigation.navigate("AddChat");
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Viper",
@@ -43,11 +46,12 @@ const HomeScreen = ({ navigation }) => {
             <AntDesign name="camerao" size={24} color="black"></AntDesign>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.5}>
-            <SimpleLineIcons
-              name="pencil"
+            <AntDesign
+              name="plus"
               size={24}
               color="black"
-            ></SimpleLineIcons>
+              onPress={chatScreen}
+            ></AntDesign>
           </TouchableOpacity>
         </View>
       ),
@@ -55,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView style={{height:"100%"}}>
         <StatusBar style="light" />
         <CustomListItem />
       </ScrollView>
