@@ -1,11 +1,11 @@
-import React, { useState,useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { useEffect } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { Image, Input, Button } from "react-native-elements";
 import { auth } from "../firebase";
 import { StatusBar } from "expo-status-bar";
 
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,19 +13,22 @@ const SignupScreen = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerBackTitle:"Back to Login",
-    })
+      headerBackTitle: "Back to Login",
+    });
   }, [navigation]);
 
   const register = () => {
-    auth.createUserWithEmailAndPassword(email, password)
-    .then((authUser)=>{
-      authUser.user.updateProfile({
-        displayName:name,
-        photoURL:imageUrl||"https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Fblank-profile-picture-mystery-man-973460%2F&psig=AOvVaw2Y1BE8KCKBiB7C7nSINeIp&ust=1664089738396000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPDymb_vrPoCFQAAAAAdAAAAABAE",
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        authUser.user.updateProfile({
+          displayName: name,
+          photoURL:
+            imageUrl ||
+            "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/",
+        });
       })
-    })
-    .catch((error)=>alert(error.message))
+      .catch((error) => alert(error.message));
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
