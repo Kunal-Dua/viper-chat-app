@@ -2,15 +2,15 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ListItem, Avatar } from "react-native-elements";
 import { auth } from "../firebase";
-const CustomListItem = () => {
+const CustomListItem = ({id,chatName,enterChat}) => {
   return (
-    <ListItem>
+    <ListItem key={id} onPress={()=>enterChat(id,chatName)} bottomDivider>
       <Avatar
         rounded
         source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
       />
       <ListItem.Content>
-        <ListItem.Title style={{ fontWeight: "900" }}>XYZ</ListItem.Title>
+        <ListItem.Title style={{ fontWeight: "700" }}>{chatName}</ListItem.Title>
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
           necessitatibus perferendis labore accusamus eius ea sint accusantium
