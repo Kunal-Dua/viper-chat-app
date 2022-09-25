@@ -5,17 +5,31 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import CustomListItem from "../Components/CustomListItem";
 import { Avatar, Icon } from "react-native-elements";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
+  const [chats, setChats] = useState([]);
   const chatScreen = () => {
     navigation.navigate("AddChat");
   };
+
+  useEffect(() => {
+    const unsubscribe = db.collection("chats").onSnapshot((snapshot) =>
+      setChats(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      )
+    );
+    return unsubscribe;
+  }, []);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Viper",
@@ -57,11 +71,19 @@ const HomeScreen = ({ navigation }) => {
       ),
     });
   }, []);
+  const enterChat=(id,chatName)=>{
+    navigation.navigate("Chat",{
+      id,
+      chatName,
+    });
+  }
   return (
     <SafeAreaView>
-      <ScrollView style={{height:"100%"}}>
+      <ScrollView style={{ height: "100%" }}>
         <StatusBar style="light" />
-        <CustomListItem />
+        {chats.map(({ id, data: { chatName } }) => (
+          <CustomListItem key={id} id={id} chatName={chatName} enterChat={enterChat} />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
