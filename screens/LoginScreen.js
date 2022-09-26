@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
           onPress={singin}
           title="Login"
         />
-        <Button
+        {/* <Button
           containerStyle={[styles.loginButton, styles.l]}
           icon={<Icon name="google" size={15} color="black" />}
           title="SIGN IN WITH GOOGLE"
@@ -73,7 +73,7 @@ const LoginScreen = ({ navigation }) => {
             borderColor: "black",
           }}
           titleStyle={{ color: "black" }}
-        />
+        /> */}
         {/* <FontAwesome.Button name="google" backgroundColor="#3b5998" color="black">
           Sign in with Facebook
         </FontAwesome.Button>

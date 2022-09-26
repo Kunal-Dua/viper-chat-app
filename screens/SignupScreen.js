@@ -25,7 +25,7 @@ const SignupScreen = ({ navigation }) => {
           displayName: name,
           photoURL:
             imageUrl ||
-            "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/",
+            "https://cdn.nerdschalk.com/wp-content/uploads/2020/09/how-to-remove-profile-picture-on-zoom-12.png",
         });
       })
       .catch((error) => alert(error.message));
