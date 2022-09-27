@@ -16,10 +16,13 @@ import { Avatar } from "react-native-elements";
 import { AntDesign, SimpleLineIcons, Ionicons } from "@expo/vector-icons";
 import firebase from "firebase/compat/app";
 import { auth, db } from "../firebase";
+import { onSnapshot ,doc} from "firebase/firestore";
 
 const ChatScreen = ({ navigation, route }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const currentUser=auth.currentUser;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat",
@@ -57,21 +60,11 @@ const ChatScreen = ({ navigation, route }) => {
   };
 
   useLayoutEffect(() => {
-    const unsubscribe = db
-      .collection("chats")
-      .doc(route.params.id)
-      .collection("messages")
-      .orderBy("timestamp", "desc")
-      .onSnapshot((onSnapshot) =>
-        setMessages(
-          onSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        )
-      );
+    const unsubscribe = onSnapshot(doc(db,"userChats",currentUser.uid,(doc)=>{
+      setMessages(doc.data());
+    }))
     return unsubscribe;
-  }, [route]);
+  }, [currentUser.uid]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -121,7 +114,7 @@ export default ChatScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:15,
+    padding: 15,
   },
   user: {
     padding: 15,
