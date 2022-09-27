@@ -34,14 +34,10 @@ const AddChat = ({ navigation }) => {
       const querySnapshot = await getDocs(q);
       console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
-        console.log("doc id -> ", doc.id, " => ", doc.data());
-        console.log("doc image -> ", doc.data().imageUrl);
         setUser(doc.data());
-        // alert("Added "+doc.data().name);
-        // navigation.goBack();
       });
     } catch (error) {
-      console.error("3"+error);
+      console.error(error);
     }
   };
   const handleAddUser = async () => {
@@ -51,36 +47,39 @@ const AddChat = ({ navigation }) => {
         : user.uid + currentUser.uid;
 
     try {
-      // console.log("in try handleadduser", combinedId);
       const res = await getDoc(doc(db, "chats", combinedId));
-      console.log("res -> ", res);
+      console.log("user id" + user.uid);
+      console.log("current user id" + currentUser.uid);
+      console.log("combinedId" + combinedId);
       if (!res.exists()) {
-        
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+        console.log("doing current");
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
-            name:user.name,
+            name: user.name,
             imageUrl: user.imageUrl,
           },
           [combinedId + ".data"]: serverTimestamp(),
         });
+
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
-            name:currentUser.name,
-            imageUrl: currentUser.imageUrl,
+            name: currentUser.displayName,
+            imageUrl: currentUser.photoURL,
           },
           [combinedId + ".data"]: serverTimestamp(),
         });
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
       }
       alert("Added " + user.name);
       navigation.goBack();
     } catch (error) {
-      console.error("4"+error);
+      console.error(error);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: "24" }}>Enter email address</Text>

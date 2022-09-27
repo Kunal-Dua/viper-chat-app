@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView //FIXME: screen not going up when keyboard comes up
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <StatusBar style="auto" />

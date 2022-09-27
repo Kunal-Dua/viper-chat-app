@@ -95,7 +95,7 @@ const HomeScreen = ({ navigation }) => {
       imageUrl,
     });
   };
-  console.log(chats[0]);
+  
   return (
     <SafeAreaView>
       <ScrollView style={{ height: "100%" }}>

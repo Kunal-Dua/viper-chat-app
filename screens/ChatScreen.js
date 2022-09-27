@@ -74,12 +74,11 @@ const ChatScreen = ({ navigation, route }) => {
     return unsubscribe;
   }, [route.params.id]);
 
-  console.log(messages);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar style="light" />
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        // behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
         keyboardVerticalOffset={100}
       >

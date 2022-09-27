@@ -41,35 +41,31 @@ const SignupScreen = ({ navigation }) => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
             //create user on firestore
-            // console.log("add user :- ");
-            // console.log("user id ",auth.currentUser.uid);
             await setDoc(doc(db, "users", auth.currentUser.uid), {
               uid: auth.currentUser.uid,
-              name,
+              name: name,
               email,
-              imageUrl: "https://cdn.pixabay.com/photo/2018/02/16/02/03/pocket-watch-3156771__340.jpg",
+              imageUrl:
+                "https://cdn.pixabay.com/photo/2018/02/16/02/03/pocket-watch-3156771__340.jpg",
             });
-            // console.log("added");
 
             //create empty user chats on firestore
             await setDoc(doc(db, "userChats", auth.currentUser.uid), {});
 
             //Update profile
-            console.log("downloadURL = ", downloadURL);
             updateProfile(auth.user, {
-              name,
-              // imageUrl: downloadURL,
+              // name: name,
+              // uid:auth.user.uid,//FIXME:
+              email,
               imageUrl: imageUrl,
             });
-
-            // navigate("/");
           } catch (err) {
-            console.log("1"+err);
+            console.log("1" + err);
           }
         });
       });
     } catch (err) {
-      console.log("2",err);
+      console.log("2", err);
     }
   };
 
