@@ -47,7 +47,7 @@ const SignupScreen = ({ navigation }) => {
               uid: auth.currentUser.uid,
               name,
               email,
-              imageUrl: downloadURL,
+              imageUrl: "https://cdn.pixabay.com/photo/2018/02/16/02/03/pocket-watch-3156771__340.jpg",
             });
             // console.log("added");
 
@@ -58,17 +58,18 @@ const SignupScreen = ({ navigation }) => {
             console.log("downloadURL = ", downloadURL);
             updateProfile(auth.user, {
               name,
-              imageUrl: downloadURL,
+              // imageUrl: downloadURL,
+              imageUrl: imageUrl,
             });
 
             // navigate("/");
           } catch (err) {
-            console.log(err);
+            console.log("1"+err);
           }
         });
       });
     } catch (err) {
-      console.log(err);
+      console.log("2",err);
     }
   };
 
