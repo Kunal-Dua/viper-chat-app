@@ -1,9 +1,12 @@
 import React, { useState, useLayoutEffect } from "react";
-import { useEffect } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { Image, Input, Button } from "react-native-elements";
-import { auth } from "../firebase";
+import { updateProfile } from "firebase/auth";
+import { db, auth, storage } from "../firebase";
 import { StatusBar } from "expo-status-bar";
+import { doc, setDoc } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -17,10 +20,12 @@ const SignupScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const register = () => {
-    auth
+  const register = async () => {
+    const file = imageUrl;
+    const res = auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
+        console.log("Sign up ", authUser);
         authUser.user.updateProfile({
           displayName: name,
           photoURL:
@@ -29,7 +34,44 @@ const SignupScreen = ({ navigation }) => {
         });
       })
       .catch((error) => alert(error.message));
+    const date = new Date().getTime();
+    const storageRef = ref(storage, `${name + date}`);
+    try {
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //create user on firestore
+            // console.log("add user :- ");
+            // console.log("user id ",auth.currentUser.uid);
+            await setDoc(doc(db, "users", auth.currentUser.uid), {
+              uid: auth.currentUser.uid,
+              name,
+              email,
+              imageUrl: downloadURL,
+            });
+            // console.log("added");
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, "userChats", auth.currentUser.uid), {});
+
+            //Update profile
+            console.log("downloadURL = ", downloadURL);
+            updateProfile(auth.user, {
+              name,
+              imageUrl: downloadURL,
+            });
+
+            // navigate("/");
+          } catch (err) {
+            console.log(err);
+          }
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="light" />
@@ -60,9 +102,9 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(text) => setImageUrl(text)}
       />
       <Button
+        title="Sign Up"
         containerStyle={styles.button}
         onPress={register}
-        title="Sign Up"
       />
     </KeyboardAvoidingView>
   );
