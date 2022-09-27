@@ -30,6 +30,7 @@ const AddChat = ({ navigation }) => {
     try {
       const q = query(collection(db, "users"), where("email", "==", input));
       console.log("q ", q);
+      console.log("user ", user);
       const querySnapshot = await getDocs(q);
       console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
@@ -40,7 +41,7 @@ const AddChat = ({ navigation }) => {
         // navigation.goBack();
       });
     } catch (error) {
-      console.error(error);
+      console.error("3"+error);
     }
   };
   const handleAddUser = async () => {
@@ -50,15 +51,15 @@ const AddChat = ({ navigation }) => {
         : user.uid + currentUser.uid;
 
     try {
-      console.log("in try handleadduser", combinedId);
+      // console.log("in try handleadduser", combinedId);
       const res = await getDoc(doc(db, "chats", combinedId));
       console.log("res -> ", res);
       if (!res.exists()) {
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
-
+        
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
+            name:user.name,
             imageUrl: user.imageUrl,
           },
           [combinedId + ".data"]: serverTimestamp(),
@@ -66,16 +67,17 @@ const AddChat = ({ navigation }) => {
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
-
+            name:currentUser.name,
             imageUrl: currentUser.imageUrl,
           },
           [combinedId + ".data"]: serverTimestamp(),
         });
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
       }
       alert("Added " + user.name);
       navigation.goBack();
     } catch (error) {
-      console.error(error);
+      console.error("4"+error);
     }
   };
   
