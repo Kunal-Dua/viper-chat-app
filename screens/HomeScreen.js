@@ -15,6 +15,7 @@ import { auth, db } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
+  const [otherUser, setOtherUser] = useState("");
   const currentUser = auth.currentUser;
 
   const chatAdd = () => {
@@ -33,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         console.error(error);
       });
   };
-
+  
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(db, "userChats", currentUser.uid),

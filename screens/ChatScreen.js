@@ -36,14 +36,14 @@ const ChatScreen = ({ navigation, route }) => {
       headerBackTitleVisible: false,
       headerTitleAlign: "left",
       headerTitle: () => (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.headerTitle}>
           <Avatar
             rounded
             source={{
-              uri: "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/",
+              uri: route.params.imageUrl,
             }}
           />
-          <Text style={{ fontSize: "24" }}>Sender</Text>
+          <Text style={{ fontSize: "24",marginLeft:14,color:"white" }}>{route.params.chatName}</Text>
         </View>
       ),
       headerLeft: () => (
@@ -86,7 +86,6 @@ const ChatScreen = ({ navigation, route }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <ScrollView>
-
               {messages.map((data) =>
                 currentUser.uid === data.senderId ? (
                   <View style={styles.user}>
@@ -98,7 +97,6 @@ const ChatScreen = ({ navigation, route }) => {
                   </View>
                 )
               )}
-              
             </ScrollView>
             <View style={styles.footer}>
               <TextInput
@@ -124,6 +122,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+  },
+  headerTitle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    margin:10,
   },
   user: {
     padding: 15,
