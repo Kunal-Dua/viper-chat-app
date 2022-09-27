@@ -17,12 +17,13 @@ const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
   const currentUser = auth.currentUser;
 
-  const chatScreen = () => {
+  const chatAdd = () => {
     navigation.navigate("AddChat");
   };
 
   const signOut = () => {
-    auth.signOut()
+    auth
+      .signOut()
       .then(() => {
         navigation.replace("Login");
         alert("sign out successfull");
@@ -78,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
               name="plus"
               size={24}
               color="black"
-              onPress={chatScreen}
+              onPress={chatAdd}
             ></AntDesign>
           </TouchableOpacity>
         </View>
@@ -86,10 +87,11 @@ const HomeScreen = ({ navigation }) => {
     });
   }, []);
 
-  const enterChat = (id, chatName) => {
+  const enterChat = (id, chatName, imageUrl) => {
     navigation.navigate("Chat", {
       id,
       chatName,
+      imageUrl,
     });
   };
   console.log(chats[0]);
@@ -98,9 +100,14 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView style={{ height: "100%" }}>
         <StatusBar style="light" />
         {Object.entries(chats)?.map((chat) => (
-          // <CustomListItem key={chat.uid} id={chat.uid} chatName={chat.name} enterChat={enterChat} />
-          <CustomListItem key={chat[0]} id={chat[0]} chatName={chat[1].userInfo.name} imageUrl={chat[1].userInfo.imageUrl}/>
-        ))} 
+          <CustomListItem
+            key={chat[0]}
+            id={chat[0]}
+            chatName={chat[1].userInfo.name}
+            imageUrl={chat[1].userInfo.imageUrl}
+            enterChat={enterChat}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

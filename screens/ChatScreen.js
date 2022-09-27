@@ -16,12 +16,19 @@ import { Avatar } from "react-native-elements";
 import { AntDesign, SimpleLineIcons, Ionicons } from "@expo/vector-icons";
 import firebase from "firebase/compat/app";
 import { auth, db } from "../firebase";
-import { onSnapshot ,doc} from "firebase/firestore";
+import {
+  onSnapshot,
+  doc,
+  serverTimestamp,
+  updateDoc,
+  arrayUnion,
+  Timestamp,
+} from "firebase/firestore";
 
 const ChatScreen = ({ navigation, route }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const currentUser=auth.currentUser;
+  const currentUser = auth.currentUser;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,25 +54,27 @@ const ChatScreen = ({ navigation, route }) => {
     });
   }, [navigation]);
 
-  const sendMessage = () => {
-    Keyboard.dismiss();
-    db.collection("chats").doc(route.params.id).collection("messages").add({
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      message: input,
-      displayName: auth.currentUser.displayName,
-      email: auth.currentUser.email,
-      photoURL: auth.currentUser.photoURL,
-    });
+  const sendMessage = async () => {
     setInput("");
+    await updateDoc(doc(db, "chats", route.params.id), {
+      messages: arrayUnion({
+        senderId: currentUser.uid,
+        name: currentUser.displayName,
+        timestamp: Timestamp.now(),
+        message: input,
+      }),
+    });
+    Keyboard.dismiss();
   };
 
   useLayoutEffect(() => {
-    const unsubscribe = onSnapshot(doc(db,"userChats",currentUser.uid,(doc)=>{
-      setMessages(doc.data());
-    }))
+    const unsubscribe = onSnapshot(doc(db, "chats", route.params.id), (doc) => {
+      doc.exists() && setMessages(doc.data().messages);
+    });
     return unsubscribe;
-  }, [currentUser.uid]);
+  }, [route.params.id]);
 
+  console.log(messages);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar style="light" />
@@ -77,19 +86,19 @@ const ChatScreen = ({ navigation, route }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <ScrollView>
-              {messages.map(({ id, data }) =>
-                data.email === auth.currentUser.email ? (
+
+              {messages.map((data) =>
+                currentUser.uid === data.senderId ? (
                   <View style={styles.user}>
-                    {/* <Avatar /> */}
                     <Text style={styles.userText}>{data.message}</Text>
                   </View>
                 ) : (
                   <View style={styles.talkingTo}>
-                    {/* <Avatar /> */}
                     <Text style={styles.talkingToText}>{data.message}</Text>
                   </View>
                 )
               )}
+              
             </ScrollView>
             <View style={styles.footer}>
               <TextInput

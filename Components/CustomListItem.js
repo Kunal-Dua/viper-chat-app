@@ -2,11 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ListItem, Avatar } from "react-native-elements";
 import { auth } from "../firebase";
-const CustomListItem = ({id,chatName,imageUrl}) => {
+const CustomListItem = ({id,chatName,imageUrl,enterChat}) => {
   console.log("image "+imageUrl);
   return (
-    // <ListItem key={id} onPress={()=>enterChat(id,chatName)} bottomDivider>
-    <ListItem key={id} bottomDivider>
+    <ListItem key={id} onPress={()=>enterChat(id,chatName,imageUrl)} bottomDivider>
       <Avatar
         rounded
         source={{ uri: imageUrl }}
