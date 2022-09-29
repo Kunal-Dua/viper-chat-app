@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         console.error(error);
       });
   };
-  
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(db, "userChats", currentUser.uid),
@@ -95,12 +95,12 @@ const HomeScreen = ({ navigation }) => {
       imageUrl,
     });
   };
-  
+
   return (
     <SafeAreaView>
       <ScrollView style={{ height: "100%" }}>
         <StatusBar style="light" />
-        {Object.entries(chats)?.map((chat) => (
+        {Object?.entries(chats)?.map((chat) => (
           <CustomListItem
             key={chat[0]}
             id={chat[0]}

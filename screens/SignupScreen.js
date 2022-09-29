@@ -83,7 +83,7 @@ const SignupScreen = ({ navigation }) => {
         title="Email ID"
         placeholder="Email ID"
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text) => setEmail(text.toLowerCase())}
       />
       <Input
         title="Password"

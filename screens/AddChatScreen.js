@@ -29,10 +29,7 @@ const AddChat = ({ navigation }) => {
   const submit = async () => {
     try {
       const q = query(collection(db, "users"), where("email", "==", input));
-      console.log("q ", q);
-      console.log("user ", user);
       const querySnapshot = await getDocs(q);
-      console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
         setUser(doc.data());
       });
@@ -48,9 +45,6 @@ const AddChat = ({ navigation }) => {
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-      console.log("user id" + user.uid);
-      console.log("current user id" + currentUser.uid);
-      console.log("combinedId" + combinedId);
       if (!res.exists()) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
@@ -86,7 +80,7 @@ const AddChat = ({ navigation }) => {
       <Input
         placeholder="new email address to add"
         value={input}
-        onChangeText={(text) => setInput(text)}
+        onChangeText={(text) => setInput(text.toLowerCase())}
       ></Input>
       <Button title={"Submit"} onPress={submit}></Button>
       {user && (
