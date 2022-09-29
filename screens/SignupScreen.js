@@ -46,7 +46,7 @@ const SignupScreen = ({ navigation }) => {
               name: name,
               email,
               imageUrl:
-                "https://cdn.pixabay.com/photo/2018/02/16/02/03/pocket-watch-3156771__340.jpg",
+                "https://cdn.nerdschalk.com/wp-content/uploads/2020/09/how-to-remove-profile-picture-on-zoom-12.png",
             });
 
             //create empty user chats on firestore

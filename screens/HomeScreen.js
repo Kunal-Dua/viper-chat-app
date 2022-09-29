@@ -100,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView style={{ height: "100%" }}>
         <StatusBar style="light" />
-        {Object?.entries(chats)?.map((chat) => (
+        {chats && Object?.entries(chats)?.map((chat) => (
           <CustomListItem
             key={chat[0]}
             id={chat[0]}

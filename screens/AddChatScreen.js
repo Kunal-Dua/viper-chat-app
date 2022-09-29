@@ -29,7 +29,9 @@ const AddChat = ({ navigation }) => {
   const submit = async () => {
     try {
       const q = query(collection(db, "users"), where("email", "==", input));
+      console.log(q);
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
         setUser(doc.data());
       });
@@ -37,12 +39,16 @@ const AddChat = ({ navigation }) => {
       console.error(error);
     }
   };
+  console.log("user " + user);
   const handleAddUser = async () => {
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
-
+    console.log("in handdle add user");
+    console.log("combinedId " + combinedId);
+    console.log("currentUser.uid " + currentUser.uid);
+    console.log("user.uid " + user.uid);
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
       if (!res.exists()) {
@@ -73,7 +79,6 @@ const AddChat = ({ navigation }) => {
       console.error(error);
     }
   };
-
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: "24" }}>Enter email address</Text>
@@ -89,7 +94,7 @@ const AddChat = ({ navigation }) => {
             <Avatar
               rounded
               size={"large"}
-              source="https://cdn.nerdschalk.com/wp-content/uploads/2020/09/how-to-remove-profile-picture-on-zoom-12.png"
+              source={user.imageUrl}
             />
             <Text style={{ fontSize: "24" }}>{user.name}</Text>
           </View>
