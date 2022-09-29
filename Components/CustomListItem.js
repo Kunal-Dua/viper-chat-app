@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ListItem, Avatar } from "react-native-elements";
 import { auth } from "../firebase";
-const CustomListItem = ({id,chatName,imageUrl,enterChat}) => {
+
+const CustomListItem = ({id,chatName,imageUrl,other,lastMessage,enterChat}) => {
+  console.log(other,"other");
   return (
-    <ListItem key={id} onPress={()=>enterChat(id,chatName,imageUrl)} bottomDivider>
+    <ListItem key={id} onPress={()=>enterChat(id,chatName,imageUrl,other)} bottomDivider>
       <Avatar
         rounded
         source={{ uri: imageUrl }}
@@ -12,10 +14,7 @@ const CustomListItem = ({id,chatName,imageUrl,enterChat}) => {
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: "700" }}>{chatName}</ListItem.Title>
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-          necessitatibus perferendis labore accusamus eius ea sint accusantium
-          distinctio voluptatem tempore alias eum quo, sit nisi eaque officiis?
-          Corrupti, atque incidunt?
+          {lastMessage}
         </ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>

@@ -88,11 +88,14 @@ const HomeScreen = ({ navigation }) => {
     });
   }, []);
 
-  const enterChat = (id, chatName, imageUrl) => {
+  const enterChat = (id, chatName, imageUrl, other) => {
+    console.log(other, "other2");
+
     navigation.navigate("Chat", {
       id,
       chatName,
       imageUrl,
+      other,
     });
   };
 
@@ -100,15 +103,18 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView style={{ height: "100%" }}>
         <StatusBar style="light" />
-        {chats && Object?.entries(chats)?.map((chat) => (
-          <CustomListItem
-            key={chat[0]}
-            id={chat[0]}
-            chatName={chat[1].userInfo.name}
-            imageUrl={chat[1].userInfo.imageUrl}
-            enterChat={enterChat}
-          />
-        ))}
+        {chats &&
+          Object?.entries(chats)?.map((chat) => (
+            <CustomListItem
+              key={chat[0]}
+              id={chat[0]}
+              chatName={chat[1].userInfo.name}
+              imageUrl={chat[1].userInfo.imageUrl}
+              lastMessage={chat[1].lastMessage.input}
+              other={chat[1].userInfo.uid}
+              enterChat={enterChat}
+            />
+          ))}
       </ScrollView>
     </SafeAreaView>
   );

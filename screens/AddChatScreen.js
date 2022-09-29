@@ -53,15 +53,16 @@ const AddChat = ({ navigation }) => {
       const res = await getDoc(doc(db, "chats", combinedId));
       if (!res.exists()) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
-
         console.log("doing current");
+
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
             name: user.name,
             imageUrl: user.imageUrl,
+            combinedId: combinedId,
           },
-          [combinedId + ".data"]: serverTimestamp(),
+          [combinedId + ".date"]: serverTimestamp(),
         });
 
         await updateDoc(doc(db, "userChats", user.uid), {
@@ -69,8 +70,9 @@ const AddChat = ({ navigation }) => {
             uid: currentUser.uid,
             name: currentUser.displayName,
             imageUrl: currentUser.photoURL,
+            combinedId: combinedId,
           },
-          [combinedId + ".data"]: serverTimestamp(),
+          [combinedId + ".date"]: serverTimestamp(),
         });
       }
       alert("Added " + user.name);
@@ -91,11 +93,7 @@ const AddChat = ({ navigation }) => {
       {user && (
         <TouchableOpacity onPress={handleAddUser}>
           <View style={styles.addUser}>
-            <Avatar
-              rounded
-              size={"large"}
-              source={user.imageUrl}
-            />
+            <Avatar rounded size={"large"} source={user.imageUrl} />
             <Text style={{ fontSize: "24" }}>{user.name}</Text>
           </View>
         </TouchableOpacity>

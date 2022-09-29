@@ -43,7 +43,9 @@ const ChatScreen = ({ navigation, route }) => {
               uri: route.params.imageUrl,
             }}
           />
-          <Text style={{ fontSize: "24",marginLeft:14,color:"white" }}>{route.params.chatName}</Text>
+          <Text style={{ fontSize: "24", marginLeft: 14, color: "white" }}>
+            {route.params.chatName}
+          </Text>
         </View>
       ),
       headerLeft: () => (
@@ -64,6 +66,27 @@ const ChatScreen = ({ navigation, route }) => {
         message: input,
       }),
     });
+
+    try {
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [route.params.id + ".lastMessage"]: {
+          input,
+        },
+        [route.params.id + ".date"]: serverTimestamp(),
+      });
+      console.log("currentUser.uid " + currentUser.uid);
+      console.log("other " + route.params.other);
+      console.log("route.params.others " + route.params.id);
+
+      await updateDoc(doc(db, "userChats", route.params.other), {
+        [route.params.id + ".lastMessage"]: {
+          input,
+        },
+        [route.params.id + ".date"]: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error(err);
+    }
     Keyboard.dismiss();
   };
 
@@ -126,7 +149,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin:10,
+    margin: 10,
   },
   user: {
     padding: 15,
