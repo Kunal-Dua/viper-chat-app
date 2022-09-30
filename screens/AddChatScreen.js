@@ -93,8 +93,10 @@ const AddChat = ({ navigation }) => {
       {user && (
         <TouchableOpacity onPress={handleAddUser}>
           <View style={styles.addUser}>
-            <Avatar rounded size={"large"} source={user.imageUrl} />
-            <Text style={{ fontSize: "24" }}>{user.name}</Text>
+              <Avatar rounded size={"medium"} source={user.imageUrl} />
+              <Text style={{ fontSize: "24", marginLeft: 20 }}>
+                {user.name}
+              </Text>
           </View>
         </TouchableOpacity>
       )}
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderStyle: "solid",
     borderColor: "black",
-    borderWidth: 1,
     borderRadius: 99,
     alignItems: "center",
   },

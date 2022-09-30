@@ -42,7 +42,6 @@ const HomeScreen = ({ navigation }) => {
         setChats(doc.data());
       }
     );
-    console.log(chats);
     return unsubscribe;
   }, []);
 
@@ -86,10 +85,9 @@ const HomeScreen = ({ navigation }) => {
         </View>
       ),
     });
-  }, []);
+  }, [navigation]);
 
   const enterChat = (id, chatName, imageUrl, other) => {
-    console.log(other, "other2");
 
     navigation.navigate("Chat", {
       id,
@@ -110,7 +108,7 @@ const HomeScreen = ({ navigation }) => {
               id={chat[0]}
               chatName={chat[1].userInfo.name}
               imageUrl={chat[1].userInfo.imageUrl}
-              lastMessage={chat[1].lastMessage.input}
+              lastMessage={chat[1]?.lastMessage?.input}
               other={chat[1].userInfo.uid}
               enterChat={enterChat}
             />

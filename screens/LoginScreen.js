@@ -83,13 +83,16 @@ const LoginScreen = ({ navigation }) => {
         <Button
           onPress={() => navigation.navigate("Signup")}
           title="SIGN UP WITH EMAIL"
-          icon={<Icon name="facebook" size={15} color="black" />}
+          icon={<Icon name="envelope" size={15} color="black" />}
           containerStyle={[styles.loginButton, styles.l]}
           buttonStyle={{
             backgroundColor: "white",
             borderColor: "black",
+            borderRadius: 99,
+            width: 250,
           }}
           titleStyle={{ color: "black" }}
+          style={{ alignItems: "center", justifyContent: "space-between" }}
         />
       </View>
     </KeyboardAvoidingView>
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
   },
   t: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 40,
   },
   ip: {
     width: 250,

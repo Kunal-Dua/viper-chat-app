@@ -45,8 +45,8 @@ const SignupScreen = ({ navigation }) => {
               uid: auth.currentUser.uid,
               name: name,
               email,
-              imageUrl:
-                "https://cdn.nerdschalk.com/wp-content/uploads/2020/09/how-to-remove-profile-picture-on-zoom-12.png",
+              imageUrl:imageUrl,
+                // "https://cdn.nerdschalk.com/wp-content/uploads/2020/09/how-to-remove-profile-picture-on-zoom-12.png",
             });
 
             //create empty user chats on firestore
